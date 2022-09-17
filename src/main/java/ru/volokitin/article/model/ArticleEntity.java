@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,17 +24,8 @@ public class ArticleEntity {
     private Date dateForPublishing;
 
     @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(nullable = false)
     public PublisherEntity publisherEntity;
 
-//    public ArticleEntity(Long id, String name, String author, String content, Date dateForPublishing) {
-//        this.id = id;
-//        this.name = name;
-//        this.author = author;
-//        this.content = content;
-//        this.dateForPublishing = dateForPublishing;
-//    }
-//
-//    public ArticleEntity() {
-//    }
+    @OneToMany(mappedBy = "articleEntity")
+    public List<RatingEntity> ratingEntityList;
 }
