@@ -1,5 +1,8 @@
 package ru.volokitin.article.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,11 @@ public class AdminController {
     @Autowired
     public RatingService ratingService;
 
+    @Operation
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "ok"),
+            @ApiResponse(responseCode = "500", description = "bad request")
+    })
     @GetMapping("/all")
     public ResponseEntity<List<ArticleEntity>> getAllArticles() {
         var listArticle = articleService.getAll()
@@ -29,12 +37,22 @@ public class AdminController {
         return new ResponseEntity<>(listArticle, HttpStatus.OK);
     }
 
+    @Operation
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "ok"),
+            @ApiResponse(responseCode = "500", description = "bad request")
+    })
     @GetMapping("/statistics")
     public ResponseEntity<Long> getStatisticFor7day(){
         var statistic = articleService.statisticFor7day();
         return new ResponseEntity<>(statistic, HttpStatus.OK);
     }
 
+    @Operation
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "ok"),
+            @ApiResponse(responseCode = "500", description = "bad request")
+    })
     @PostMapping(path = "/rating/{articleId}")
     public ResponseEntity<Void> rating(@PathVariable Long articleId, @RequestBody Integer gradle){
         var boolSave = ratingService.rating(articleId, gradle);

@@ -1,5 +1,8 @@
 package ru.volokitin.article.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,11 @@ public class PublisherController {
     @Autowired
     public PublisherService publisherService;
 
+    @Operation
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "ok"),
+            @ApiResponse(responseCode = "500", description = "bad request")
+    })
     @PostMapping("/create/article")
     public ResponseEntity<String> createArticle(@RequestBody ArticleEntity articleEntity) {
         if (articleEntity == null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -31,6 +39,11 @@ public class PublisherController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @Operation
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "ok"),
+            @ApiResponse(responseCode = "500", description = "bad request")
+    })
     @GetMapping("/all")
     public ResponseEntity<List<ArticleEntity>> getAllArticles() {
         var listArticle = articleService.getAll()
@@ -40,6 +53,11 @@ public class PublisherController {
         return new ResponseEntity<>(listArticle, HttpStatus.OK);
     }
 
+    @Operation
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "ok"),
+            @ApiResponse(responseCode = "500", description = "bad request")
+    })
     @PostMapping("create/publisher")
     public ResponseEntity<Void> createPublisher(@RequestBody PublisherEntity publisherEntity) {
         if (publisherEntity == null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
