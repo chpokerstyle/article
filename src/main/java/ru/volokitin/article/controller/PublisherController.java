@@ -31,6 +31,7 @@ public class PublisherController {
             @ApiResponse(responseCode = "500", description = "bad request")
     })
     @PostMapping("/create/article")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> createArticle(@RequestBody ArticleEntity articleEntity) {
         if (articleEntity == null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         if (articleEntity.getName().length() < 100)
@@ -45,6 +46,7 @@ public class PublisherController {
             @ApiResponse(responseCode = "500", description = "bad request")
     })
     @GetMapping("/all")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<ArticleEntity>> getAllArticles() {
         var listArticle = articleService.getAll()
                 .stream()
@@ -59,6 +61,7 @@ public class PublisherController {
             @ApiResponse(responseCode = "500", description = "bad request")
     })
     @PostMapping("create/publisher")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> createPublisher(@RequestBody PublisherEntity publisherEntity) {
         if (publisherEntity == null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(HttpStatus.CREATED);

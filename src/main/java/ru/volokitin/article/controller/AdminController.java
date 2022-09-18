@@ -23,12 +23,18 @@ public class AdminController {
     @Autowired
     public RatingService ratingService;
 
+    /**
+     * Секьюрность не реализована.
+     * Изначально администрирование планировалось отдельным сервисом
+     */
+
     @Operation
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "ok"),
             @ApiResponse(responseCode = "500", description = "bad request")
     })
     @GetMapping("/all")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ArticleEntity>> getAllArticles() {
         var listArticle = articleService.getAll()
                 .stream()
@@ -43,7 +49,8 @@ public class AdminController {
             @ApiResponse(responseCode = "500", description = "bad request")
     })
     @GetMapping("/statistics")
-    public ResponseEntity<Long> getStatisticFor7day(){
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Long> getStatisticFor7day() {
         var statistic = articleService.statisticFor7day();
         return new ResponseEntity<>(statistic, HttpStatus.OK);
     }
@@ -54,7 +61,8 @@ public class AdminController {
             @ApiResponse(responseCode = "500", description = "bad request")
     })
     @PostMapping(path = "/rating/{articleId}")
-    public ResponseEntity<Void> rating(@PathVariable Long articleId, @RequestBody Integer gradle){
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> rating(@PathVariable Long articleId, @RequestBody Integer gradle) {
         var boolSave = ratingService.rating(articleId, gradle);
         if (boolSave = false) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(HttpStatus.OK);
